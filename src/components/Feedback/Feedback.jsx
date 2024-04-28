@@ -1,14 +1,14 @@
 
 
 
-export default function Feedbak({value}) {
+export default function Feedbak({value : good, neutral, bad}) {
 
 
   return (
     <div>
-      <p>Good: {value}</p>
-      <p>Neutral: {value}</p>
-      <p>Bad: {value}</p>
+      <p>Good: {good}</p>
+      <p>Neutral: {neutral}</p>
+      <p>Bad: {bad}</p>
     </div>
   )
 }
