@@ -23,4 +23,3 @@ setClicks({...clicks, [feedbackType] : clicks[feedbackType] + 1})
 
     )
   }
-

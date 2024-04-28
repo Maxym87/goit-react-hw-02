@@ -1,7 +1,7 @@
 
 
 
-export default function Feedbak({value : good, neutral, bad}) {
+export default function Feedback({value : good, neutral, bad}) {
 
 
   return (
