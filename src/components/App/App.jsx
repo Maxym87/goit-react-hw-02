@@ -1,24 +1,54 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Description from "../Description/Description";
 import Options from "../Options/Options";
-import Feedbaсk from "../Feedback/Feedback";
+import Feedback from "../Feedback/Feedback";
+import Notification from "../Notification/Notification";
+
+
 
 export default function App() {
 
-  const [clicks, setClicks] = useState({good: 0,
-	neutral: 0,
-	bad: 0})
+  const [values, setValues] = useState(() => {
+    const savedFeedback = JSON.parse(localStorage.getItem('feedback'))
+
+    if (savedFeedback !== null) {
+      return savedFeedback
+    }
+
+    return {
+      good: 0,
+      neutral: 0,
+      bad: 0
+    }
+
+  }
+  );
   
   const updateFeedback = feedbackType => {
-setClicks({...clicks, [feedbackType] : clicks[feedbackType] + 1})
-}
- console.log(clicks)
+setValues({...values, [feedbackType] : values[feedbackType] + 1})
+  }
+  
+  useEffect(() => {
+    localStorage.setItem("feedback", JSON.stringify(values))
+  }, [values])
+  
+  const { good, neutral, bad } = values;
+  const totalFeedback = bad + good + neutral;
+  const positiveFeedback = Math.round((good / totalFeedback) * 100) 
+
+  const resetFeedback = () => {
+    setValues({
+      good: 0,
+      neutral: 0,
+      bad:0
+    })
+  }
 
     return (
       <>
-        <Description />
-        <Options onClick={updateFeedback} />
-        <Feedbaсk value={ clicks} />
+        <Description/>
+        <Options feedback={updateFeedback} totalFeedback={totalFeedback} reset={resetFeedback}/>
+ <>{totalFeedback === 0 ? <Notification message={"No feedback yet"} /> : <Feedback values={values} totalFeedback={totalFeedback} positiveFeedback={positiveFeedback } />}</>
       </>
 
     )
